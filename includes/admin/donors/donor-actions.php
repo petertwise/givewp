@@ -179,7 +179,7 @@ add_action( 'give_edit-donor', 'give_edit_donor', 10, 1 );
  *
  * @return int The Note ID that was saved, or 0 if nothing was saved.
  */
-function give_donor_save_note( $args ) {
+function give_donor_save_note() {
 
 	$donor_view_role = apply_filters( 'give_view_donors_role', 'view_give_reports' );
 
@@ -189,27 +189,25 @@ function give_donor_save_note( $args ) {
 		) );
 	}
 
+	// Get POST variables.
+	$args = give_clean( $_POST );
+
+	// Bailout, if empty arguments.
 	if ( empty( $args ) ) {
 		return false;
 	}
 
-	$donor_note = trim( give_clean( $args['donor_note'] ) );
-	$donor_id   = (int) $args['customer_id'];
-	$nonce      = $args['add_donor_note_nonce'];
-
-	if ( ! wp_verify_nonce( $nonce, 'add-donor-note' ) ) {
-		wp_die( __( 'Cheatin&#8217; uh?', 'give' ), __( 'Error', 'give' ), array(
-			'response' => 400,
-		) );
+	// Bailout, if donor note is empty.
+	if ( empty( $args['donor_note'] ) ) {
+		$error = new WP_Error( 'empty-donor-note', __( 'Donor note is required. Please try again.', 'give' ) );
+		wp_send_json_error( $error );
 	}
 
-	if ( empty( $donor_note ) ) {
-		give_set_error( 'empty-donor-note', __( 'A note is required.', 'give' ) );
-	}
+	$donor_note = trim( $args['donor_note'] );
+	$donor_id   = ! empty( $args['donor_id'] ) ? absint( $args['donor_id'] ) : false;
 
-	if ( give_get_errors() ) {
-		return false;
-	}
+	// Security check.
+	check_admin_referer( 'add-donor-note', 'add_donor_note_nonce' );
 
 	$donor    = new Give_Donor( $donor_id );
 	$new_note = $donor->add_note( $donor_note );
@@ -237,21 +235,13 @@ function give_donor_save_note( $args ) {
 		$output = ob_get_contents();
 		ob_end_clean();
 
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			echo $output;
-			exit;
-		}
-
-		return $new_note;
-
+		wp_send_json_success( $output );
 	}
 
-	return false;
-
+	wp_send_json_error();
 }
 
-add_action( 'give_add-donor-note', 'give_donor_save_note', 10, 1 );
-
+add_action( 'wp_ajax_give_add_donor_note', 'give_donor_save_note' );
 
 /**
  * Disconnect a user ID from a donor

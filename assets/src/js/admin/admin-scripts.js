@@ -1744,8 +1744,8 @@ const gravatar = require( 'gravatar' );
 			$( 'body' ).on( 'click', '#add-donor-note', function( e ) {
 				e.preventDefault();
 				const postData = {
-					give_action: 'add-donor-note',
-					customer_id: $( '#donor-id' ).val(),
+					action: 'give_add_donor_note',
+					donor_id: $( '#donor-id' ).val(),
 					donor_note: $( '#donor-note' ).val(),
 					add_donor_note_nonce: $( '#add_donor_note_nonce' ).val(),
 				};
@@ -1756,14 +1756,12 @@ const gravatar = require( 'gravatar' );
 						data: postData,
 						url: ajaxurl,
 						success: function( response ) {
-							$( '#give-donor-notes' ).prepend( response );
+							$( '#give-donor-notes' ).prepend( response.data );
 							$( '.give-no-donor-notes' ).hide();
 							$( '#donor-note' ).val( '' );
 						},
 					} ).fail( function( data ) {
-						if ( window.console && window.console.log ) {
-							console.log( data );
-						}
+						console.log( data );
 					} );
 				} else {
 					const border_color = $( '#donor-note' ).css( 'border-color' );
