@@ -262,7 +262,7 @@ add_action( 'give_add-donor-note', 'give_donor_save_note', 10, 1 );
  *
  * @return bool|array If the disconnect was successful.
  */
-function give_disconnect_donor_user() {
+function give_disconnect_donor_user_id() {
 
 	$donor_edit_role = apply_filters( 'give_edit_donors_role', 'edit_give_payments' );
 
@@ -353,8 +353,7 @@ function give_disconnect_donor_user() {
 
 }
 
-add_action( 'wp_ajax_give_disconnect_donor_user', 'give_disconnect_donor_user' );
-// add_action( 'give_disconnect-userid', 'give_disconnect_donor_user_id', 10, 1 );
+add_action( 'wp_ajax_give_disconnect_donor_user', 'give_disconnect_donor_user_id' );
 
 /**
  * Add an email address to the donor from within the admin and log a donor note.
