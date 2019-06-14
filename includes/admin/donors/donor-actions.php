@@ -262,7 +262,7 @@ add_action( 'give_add-donor-note', 'give_donor_save_note', 10, 1 );
  *
  * @return bool|array If the disconnect was successful.
  */
-function give_disconnect_donor_user_id( $args ) {
+function give_disconnect_donor_user() {
 
 	$donor_edit_role = apply_filters( 'give_edit_donors_role', 'edit_give_payments' );
 
@@ -272,21 +272,22 @@ function give_disconnect_donor_user_id( $args ) {
 		) );
 	}
 
+	// Get POST variables.
+	$args = give_clean( $_POST );
+
+	// Bailout, if empty arguments.
 	if ( empty( $args ) ) {
 		return false;
 	}
 
-	$donor_id = (int) $args['customer_id'];
+	$donor_id = ! empty( $args['donor_id'] ) ? absint( $args['donor_id'] ) : false;
 
-	$nonce = $args['_wpnonce'];
-
-	if ( ! wp_verify_nonce( $nonce, 'edit-donor' ) ) {
-		wp_die( __( 'Cheatin&#8217; uh?', 'give' ), __( 'Error', 'give' ), array(
-			'response' => 400,
-		) );
-	}
+	// Security Check.
+	check_admin_referer( 'edit-donor', 'security' );
 
 	$donor = new Give_Donor( $donor_id );
+
+	// Bailout, if donor id not exists.
 	if ( empty( $donor->id ) ) {
 		return false;
 	}
@@ -347,11 +348,13 @@ function give_disconnect_donor_user_id( $args ) {
 		wp_die();
 	}
 
-	return $output;
+	echo $output;
+	wp_die();
 
 }
 
-add_action( 'give_disconnect-userid', 'give_disconnect_donor_user_id', 10, 1 );
+add_action( 'wp_ajax_give_disconnect_donor_user', 'give_disconnect_donor_user' );
+// add_action( 'give_disconnect-userid', 'give_disconnect_donor_user_id', 10, 1 );
 
 /**
  * Add an email address to the donor from within the admin and log a donor note.
