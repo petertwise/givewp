@@ -67,7 +67,6 @@ function give_process_donation_form() {
 		} else {
 			give_send_back_to_checkout();
 		}
-		wp_die('cheating huh?');
 	}
 
 	/**
