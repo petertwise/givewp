@@ -181,8 +181,11 @@ add_action( 'give_edit-donor', 'give_edit_donor', 10, 1 );
  */
 function give_donor_save_note() {
 
-	$donor_view_role = apply_filters( 'give_view_donors_role', 'view_give_reports' );
+	// Security check.
+	check_admin_referer( 'add-donor-note', 'add_donor_note_nonce' );
 
+	// Restrict access based on user role.
+	$donor_view_role = apply_filters( 'give_view_donors_role', 'view_give_reports' );
 	if ( ! is_admin() || ! current_user_can( $donor_view_role ) ) {
 		wp_die( __( 'You do not have permission to edit this donor.', 'give' ), __( 'Error', 'give' ), array(
 			'response' => 403,
@@ -205,12 +208,8 @@ function give_donor_save_note() {
 
 	$donor_note = trim( $args['donor_note'] );
 	$donor_id   = ! empty( $args['donor_id'] ) ? absint( $args['donor_id'] ) : false;
-
-	// Security check.
-	check_admin_referer( 'add-donor-note', 'add_donor_note_nonce' );
-
-	$donor    = new Give_Donor( $donor_id );
-	$new_note = $donor->add_note( $donor_note );
+	$donor      = new Give_Donor( $donor_id );
+	$new_note   = $donor->add_note( $donor_note );
 
 	/**
 	 * Fires before inserting donor note.
@@ -254,8 +253,11 @@ add_action( 'wp_ajax_give_add_donor_note', 'give_donor_save_note' );
  */
 function give_disconnect_donor_user_id() {
 
-	$donor_edit_role = apply_filters( 'give_edit_donors_role', 'edit_give_payments' );
+	// Security Check.
+	check_admin_referer( 'edit-donor', 'security' );
 
+	// Restrict access based on user role.
+	$donor_edit_role = apply_filters( 'give_edit_donors_role', 'edit_give_payments' );
 	if ( ! is_admin() || ! current_user_can( $donor_edit_role ) ) {
 		wp_die( __( 'You do not have permission to edit this donor.', 'give' ), __( 'Error', 'give' ), array(
 			'response' => 403,
@@ -271,11 +273,7 @@ function give_disconnect_donor_user_id() {
 	}
 
 	$donor_id = ! empty( $args['donor_id'] ) ? absint( $args['donor_id'] ) : false;
-
-	// Security Check.
-	check_admin_referer( 'edit-donor', 'security' );
-
-	$donor = new Give_Donor( $donor_id );
+	$donor    = new Give_Donor( $donor_id );
 
 	// Bailout, if donor id not exists.
 	if ( empty( $donor->id ) ) {
