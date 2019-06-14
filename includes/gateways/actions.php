@@ -81,10 +81,10 @@ add_action( 'wp_ajax_nopriv_give_load_gateway', 'give_load_ajax_gateway' );
  */
 function give_donation_form_nonce() {
 
-	// Security check.
-	check_ajax_referer( 'give_ajax_nonce', 'security' );
-
 	if ( isset( $_POST['give_form_id'] ) ) {
+
+		// Security check.
+		check_ajax_referer( 'give_ajax_nonce', 'security' );
 
 		// Get donation form id.
 		$form_id = is_numeric( $_POST['give_form_id'] ) ? absint( $_POST['give_form_id'] ) : 0;
@@ -92,10 +92,35 @@ function give_donation_form_nonce() {
 		// Send nonce json data.
 		wp_send_json_success( wp_create_nonce( "give_donation_form_nonce_{$form_id}" ) );
 	}
+
+	wp_send_json_error();
 }
 
 add_action( 'wp_ajax_give_donation_form_nonce', 'give_donation_form_nonce' );
 add_action( 'wp_ajax_nopriv_give_donation_form_nonce', 'give_donation_form_nonce' );
+
+/**
+ * This function will add referer check to check_ajax_referer(); function.
+ *
+ * @param string $action
+ * @param string $result
+ *
+ * @since 2.5.0
+ *
+ * @return void
+ */
+function give_add_ajax_referer_check( $action, $result ) {
+
+	$home_url = home_url();
+	$referer  = strtolower( wp_get_referer() );
+
+	if ( ! $result && ! ( -1 == $action && strpos( $referer, $home_url ) === 0 ) ) {
+		wp_nonce_ays( $action );
+		die();
+	}
+}
+
+add_action( 'check_ajax_referer', 'give_add_ajax_referer_check', 9, 2 );
 
 
 /**
@@ -108,10 +133,10 @@ add_action( 'wp_ajax_nopriv_give_donation_form_nonce', 'give_donation_form_nonce
  */
 function __give_donation_form_reset_all_nonce() {
 
-	// Security check.
-	check_ajax_referer( 'give_ajax_nonce', 'security' );
-
 	if ( isset( $_POST['give_form_id'] ) ) {
+
+		// Security check.
+		check_ajax_referer( 'give_ajax_nonce', 'security' );
 
 		// Get donation form id.
 		$form_id = is_numeric( $_POST['give_form_id'] ) ? absint( $_POST['give_form_id'] ) : 0;
