@@ -1726,7 +1726,7 @@ const gravatar = require( 'gravatar' );
 				};
 
 				$.post( ajaxurl, postData, function( response ) {
-					window.location.href = response.redirect;
+					window.location.href = response.data;
 				}, 'json' );
 			} );
 		},

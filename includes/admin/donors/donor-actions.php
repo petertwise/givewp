@@ -294,7 +294,6 @@ function give_disconnect_donor_user_id() {
 	 */
 	do_action( 'give_pre_donor_disconnect_user_id', $donor_id, $user_id );
 
-	$output     = array();
 	$donor_args = array(
 		'user_id' => 0,
 	);
@@ -308,20 +307,18 @@ function give_disconnect_donor_user_id() {
 		update_user_meta( $user_id, '_give_disconnected_donor_id', $donor->id );
 		$donor->update_meta( '_give_disconnected_user_id', $user_id );
 
-		$redirect_url = add_query_arg(
+		$output = add_query_arg(
 			'give-messages[]',
 			'disconnect-user',
 			$redirect_url
 		);
-
-		$output['success'] = true;
-
 	} else {
-		$output['success'] = false;
-		give_set_error( 'give-disconnect-user-fail', __( 'Failed to disconnect user from donor.', 'give' ) );
+		$output = add_query_arg(
+			'give-messages[]',
+			'disconnect-user-failed',
+			$redirect_url
+		);
 	}
-
-	$output['redirect'] = $redirect_url;
 
 	/**
 	 * Fires after disconnecting user ID from a donor.
@@ -332,14 +329,7 @@ function give_disconnect_donor_user_id() {
 	 */
 	do_action( 'give_post_donor_disconnect_user_id', $donor_id );
 
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		header( 'Content-Type: application/json' );
-		echo json_encode( $output );
-		wp_die();
-	}
-
-	echo $output;
-	wp_die();
+	wp_send_json_success( $output );
 
 }
 
