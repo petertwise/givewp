@@ -22,7 +22,10 @@
   ],
   "support": {
     "issues": "https://github.com/impress-org/give/issues"
-  },
+	},
+	"autoload": {
+		"psr-4": {"Give\\Stripe\\": "vendor/stripe/stripe-php/lib"}
+	},
   "scripts": {
     "post-install-cmd": [
 			"\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs || true",
