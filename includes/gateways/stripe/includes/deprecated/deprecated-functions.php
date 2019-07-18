@@ -52,7 +52,7 @@ function get_give_stripe_connect_options() {
 /**
  * This function is used to get stripe statement descriptor.
  *
- * @param \Stripe\Subscription $subscription Subscription object from Stripe.
+ * @param \Give\Stripe\Subscription $subscription Subscription object from Stripe.
  *
  * @since      1.0.0
  * @deprecated 2.5.0

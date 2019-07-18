@@ -31,7 +31,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Method' ) ) {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @return \Stripe\PaymentMethod
+		 * @return \Give\Stripe\PaymentMethod
 		 */
 		public function create( $args ) {
 
@@ -39,7 +39,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Method' ) ) {
 
 				give_stripe_set_app_info();
 
-				$payment_method = \Stripe\PaymentMethod::create( $args, give_stripe_get_connected_account_options() );
+				$payment_method = \Give\Stripe\PaymentMethod::create( $args, give_stripe_get_connected_account_options() );
 
 			} catch( Exception $e ) {
 				give_record_gateway_error(
@@ -63,7 +63,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Method' ) ) {
 		 *
 		 * @param string $id Payment Intent ID.
 		 *
-		 * @return \Stripe\PaymentMethod
+		 * @return \Give\Stripe\PaymentMethod
 		 */
 		public function retrieve( $id ) {
 
@@ -71,7 +71,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Method' ) ) {
 
 				give_stripe_set_app_info();
 
-				$payment_method_details = \Stripe\PaymentMethod::retrieve( $id, give_stripe_get_connected_account_options() );
+				$payment_method_details = \Give\Stripe\PaymentMethod::retrieve( $id, give_stripe_get_connected_account_options() );
 
 			} catch( Exception $e ) {
 				give_record_gateway_error(
@@ -98,7 +98,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Method' ) ) {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @return \Stripe\PaymentMethod
+		 * @return \Give\Stripe\PaymentMethod
 		 */
 		public function list_all( $customer_id, $type = 'card' ) {
 
@@ -106,7 +106,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Method' ) ) {
 
 				give_stripe_set_app_info();
 
-				$all_payment_methods = \Stripe\PaymentMethod::all(
+				$all_payment_methods = \Give\Stripe\PaymentMethod::all(
 					array(
 						'customer' => $customer_id,
 						'type'     => $type,

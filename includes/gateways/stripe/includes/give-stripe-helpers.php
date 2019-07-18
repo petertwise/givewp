@@ -671,13 +671,13 @@ function give_stripe_set_app_info() {
 		 */
 		$application_version = apply_filters( 'give_stripe_get_application_version', GIVE_VERSION );
 
-		\Stripe\Stripe::setAppInfo(
+		\Give\Stripe\Stripe::setAppInfo(
 			$application_name,
 			$application_version,
 			esc_url_raw( 'https://givewp.com' ),
 			'pp_partner_DKj75W1QYBxBLK' // Partner ID.
 		);
-	} catch ( \Stripe\Error\Base $e ) {
+	} catch ( \Give\Stripe\Error\Base $e ) {
 		Give_Stripe_Logger::log_error( $e, $this->id );
 	} catch ( Exception $e ) {
 
@@ -769,9 +769,9 @@ function give_stripe_set_api_key() {
         $secret_key = give_stripe_get_secret_key();
 
         // Set secret key.
-		\Stripe\Stripe::setApiKey( $secret_key );
+		\Give\Stripe\Stripe::setApiKey( $secret_key );
 
-	} catch ( \Stripe\Error\Base $e ) {
+	} catch ( \Give\Stripe\Error\Base $e ) {
 
 		// Log Error.
 		$this->log_error( $e );
@@ -1119,7 +1119,7 @@ function give_stripe_process_payment( $donation_data, $stripe_gateway ) {
  * Process additional authentication.
  *
  * @param int                   $donation_id    Donation ID.
- * @param \Stripe\PaymentIntent $payment_intent Stripe Payment Intent Object.
+ * @param \Give\Stripe\PaymentIntent $payment_intent Stripe Payment Intent Object.
  *
  * @since 2.5.0
  *

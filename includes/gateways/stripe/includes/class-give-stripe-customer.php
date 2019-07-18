@@ -56,7 +56,7 @@ class Give_Stripe_Customer {
 	 * @since  2.5.0
 	 * @access private
 	 *
-	 * @var \Stripe\Customer
+	 * @var \Give\Stripe\Customer
 	 */
 	public $customer_data = array();
 
@@ -76,7 +76,7 @@ class Give_Stripe_Customer {
 	 * @since  2.5.0
 	 * @access public
 	 *
-	 * @var array|\Stripe\PaymentMethod
+	 * @var array|\Give\Stripe\PaymentMethod
 	 */
 	public $attached_payment_method = array();
 
@@ -152,7 +152,7 @@ class Give_Stripe_Customer {
 	 * @since  2.5.0
 	 * @access public
 	 *
-	 * @return bool|\Stripe\Customer
+	 * @return bool|\Give\Stripe\Customer
 	 */
 	public function get_or_create_customer() {
 
@@ -170,14 +170,14 @@ class Give_Stripe_Customer {
 			try {
 
 				// Retrieve the customer to ensure the customer has not been deleted.
-				$customer = \Stripe\Customer::retrieve( $stripe_customer_id, give_stripe_get_connected_account_options() );
+				$customer = \Give\Stripe\Customer::retrieve( $stripe_customer_id, give_stripe_get_connected_account_options() );
 
 				if ( isset( $customer->deleted ) && $customer->deleted ) {
 
 					// This customer was deleted.
 					$customer = false;
 				}
-			} catch ( \Stripe\Error\InvalidRequest $e ) {
+			} catch ( \Give\Stripe\Error\InvalidRequest $e ) {
 
 				$error_object = $e->getJsonBody();
 
@@ -221,7 +221,7 @@ class Give_Stripe_Customer {
 	 * @since  2.5.0
 	 * @access public
 	 *
-	 * @return bool|\Stripe\Customer
+	 * @return bool|\Give\Stripe\Customer
 	 */
 	public function create_customer() {
 
@@ -290,9 +290,9 @@ class Give_Stripe_Customer {
 			}
 
 			// Create a customer first so we can retrieve them later for future payments.
-			$customer = \Stripe\Customer::create( $args, give_stripe_get_connected_account_options() );
+			$customer = \Give\Stripe\Customer::create( $args, give_stripe_get_connected_account_options() );
 
-		} catch ( \Stripe\Error\Base $e ) {
+		} catch ( \Give\Stripe\Error\Base $e ) {
 			// Record Log.
 			give_stripe_record_log(
 				__( 'Stripe - Customer Creation Error', 'give' ),
@@ -391,7 +391,7 @@ class Give_Stripe_Customer {
 					$this->customer_data->default_source = $card->id;
 					$this->customer_data->save();
 
-				} catch ( \Stripe\Error\Base $e ) {
+				} catch ( \Give\Stripe\Error\Base $e ) {
 					Give_Stripe_Logger::log_error( $e, 'stripe' );
 				} catch ( Exception $e ) {
 					give_record_gateway_error(
@@ -498,7 +498,7 @@ class Give_Stripe_Customer {
 						}
 					}
 
-				} catch ( \Stripe\Error\Base $e ) {
+				} catch ( \Give\Stripe\Error\Base $e ) {
 
 					Give_Stripe_Logger::log_error( $e, 'stripe' );
 
@@ -533,7 +533,7 @@ class Give_Stripe_Customer {
 	/**
 	 * This function will check whether the error says no such customer.
 	 *
-	 * @param \Stripe\Error\InvalidRequest $error Invalid Request Error.
+	 * @param \Give\Stripe\Error\InvalidRequest $error Invalid Request Error.
 	 *
 	 * @since  2.5.0
 	 * @access public

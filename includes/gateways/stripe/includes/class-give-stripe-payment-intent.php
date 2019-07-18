@@ -36,7 +36,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Intent' ) ) {
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @return \Stripe\PaymentIntent
+		 * @return \Give\Stripe\PaymentIntent
 		 */
 		public function create( $args ) {
 
@@ -49,7 +49,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Intent' ) ) {
 			give_stripe_set_app_info();
 
 			try {
-				return \Stripe\PaymentIntent::create(
+				return \Give\Stripe\PaymentIntent::create(
 					$args,
 					give_stripe_get_connected_account_options()
 				);
@@ -76,7 +76,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Intent' ) ) {
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @return \Stripe\PaymentIntent
+		 * @return \Give\Stripe\PaymentIntent
 		 */
 		public function retrieve( $client_secret ) {
 
@@ -84,7 +84,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Intent' ) ) {
 			give_stripe_set_app_info();
 
 			try {
-				return \Stripe\PaymentIntent::retrieve(
+				return \Give\Stripe\PaymentIntent::retrieve(
 					$client_secret,
 					give_stripe_get_connected_account_options()
 				);
@@ -112,7 +112,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Intent' ) ) {
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @return \Stripe\PaymentIntent
+		 * @return \Give\Stripe\PaymentIntent
 		 */
 		public function update( $client_secret, $args ) {
 
@@ -125,7 +125,7 @@ if ( ! class_exists( 'Give_Stripe_Payment_Intent' ) ) {
 			give_stripe_set_app_info();
 
 			try {
-				return \Stripe\PaymentIntent::update(
+				return \Give\Stripe\PaymentIntent::update(
 					$client_secret,
 					$args,
 					give_stripe_get_connected_account_options()

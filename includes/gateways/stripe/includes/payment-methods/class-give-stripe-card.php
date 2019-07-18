@@ -66,12 +66,12 @@ if ( ! class_exists( 'Give_Stripe_Card' ) ) {
 
 					try {
 
-						$source = \Stripe\Source::create( array(
+						$source = \Give\Stripe\Source::create( array(
 							'card' => $card_data,
 						) );
 						$source_id = $source->id;
 
-					} catch ( \Stripe\Error\Base $e ) {
+					} catch ( \Give\Stripe\Error\Base $e ) {
 						$this->log_error( $e );
 
 					} catch ( Exception $e ) {
@@ -334,7 +334,7 @@ if ( ! class_exists( 'Give_Stripe_Card' ) ) {
 						 * @since 2.1
 						 *
 						 * @param int            $donation_id Donation ID.
-						 * @param \Stripe\Charge $charge      Stripe Charge Object.
+						 * @param \Give\Stripe\Charge $charge      Stripe Charge Object.
 						 * @param string         $customer_id Stripe Customer ID.
 						 */
 						do_action( 'give_stripe_verify_3dsecure_payment', $donation_id, $charge, $customer_id );
@@ -342,7 +342,7 @@ if ( ! class_exists( 'Give_Stripe_Card' ) ) {
 						// Verify Payment.
 						$this->verify_payment( $donation_id, $customer_id, $charge );
 					}
-				} catch ( \Stripe\Error\Base $e ) {
+				} catch ( \Give\Stripe\Error\Base $e ) {
 					$this->log_error( $e );
 				} catch ( Exception $e ) {
 					give_update_payment_status( $donation_id, 'failed' );

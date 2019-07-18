@@ -107,7 +107,7 @@ if ( ! class_exists( 'Give_Stripe_Webhooks' ) ) {
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @param \Stripe\Event $event_json Stripe Event.
+		 * @param \Give\Stripe\Event $event_json Stripe Event.
 		 */
 		public function process( $event_json ) {
 
@@ -118,12 +118,12 @@ if ( ! class_exists( 'Give_Stripe_Webhooks' ) ) {
 
 				try {
 
-					$event = \Stripe\Event::retrieve( $event_json->id );
+					$event = \Give\Stripe\Event::retrieve( $event_json->id );
 
 					// Update time of webhook received whenever the event is retrieved.
 					give_update_option( 'give_stripe_last_webhook_received_timestamp', current_time( 'timestamp', 1 ) );
 
-				} catch ( \Stripe\Error\Authentication $e ) {
+				} catch ( \Give\Stripe\Error\Authentication $e ) {
 
 					if ( strpos( $e->getMessage(), 'Platform access may have been revoked' ) !== false ) {
 						give_stripe_connect_delete_options();

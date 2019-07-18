@@ -59,7 +59,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @var \Stripe\PaymentIntent
+		 * @var \Give\Stripe\PaymentIntent
 		 */
 		public $payment_intent;
 
@@ -113,9 +113,9 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 			try {
 
 				// Set API Version to latest.
-				\Stripe\Stripe::setApiVersion( $this->api_version );
+				\Give\Stripe\Stripe::setApiVersion( $this->api_version );
 
-			} catch ( \Stripe\Error\Base $e ) {
+			} catch ( \Give\Stripe\Error\Base $e ) {
 
 				// Log Error.
 				$this->log_error( $e );
@@ -159,7 +159,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @return \Stripe\Token
+		 * @return \Give\Stripe\Token
 		 */
 		public function get_token_details( $id, $args = array() ) {
 
@@ -171,9 +171,9 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 				$args = wp_parse_args( $args, give_stripe_get_connected_account_options() );
 
 				// Retrieve Token Object.
-				return \Stripe\Token::retrieve( $id, $args );
+				return \Give\Stripe\Token::retrieve( $id, $args );
 
-			} catch ( \Stripe\Error\Base $e ) {
+			} catch ( \Give\Stripe\Error\Base $e ) {
 				$this->log_error( $e );
 			} catch ( Exception $e ) {
 
@@ -201,7 +201,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @return \Stripe\Source
+		 * @return \Give\Stripe\Source
 		 */
 		public function get_source_details( $id ) {
 
@@ -211,9 +211,9 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 			try {
 
 				// Retrieve Source Object.
-				return \Stripe\Source::retrieve( $id, give_stripe_get_connected_account_options() );
+				return \Give\Stripe\Source::retrieve( $id, give_stripe_get_connected_account_options() );
 
-			} catch ( \Stripe\Error\Base $e ) {
+			} catch ( \Give\Stripe\Error\Base $e ) {
 				$this->log_error( $e );
 			} catch ( Exception $e ) {
 
@@ -236,12 +236,12 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		/**
 		 * This function will prepare source based on the parameters provided.
 		 *
-		 * @param array $args List of arguments \Stripe\Source::create() supports.
+		 * @param array $args List of arguments \Give\Stripe\Source::create() supports.
 		 *
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @return \Stripe\Source
+		 * @return \Give\Stripe\Source
 		 */
 		public function prepare_source( $args ) {
 
@@ -251,9 +251,9 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 			try {
 
 				// Create Source Object.
-				return \Stripe\Source::create( $args, give_stripe_get_connected_account_options() );
+				return \Give\Stripe\Source::create( $args, give_stripe_get_connected_account_options() );
 
-			} catch ( \Stripe\Error\Base $e ) {
+			} catch ( \Give\Stripe\Error\Base $e ) {
 				$this->log_error( $e );
 			} catch ( Exception $e ) {
 
@@ -276,12 +276,12 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		/**
 		 * Get Customer's card.
 		 *
-		 * @param \Stripe\Customer $stripe_customer Stripe Customer Object.
+		 * @param \Give\Stripe\Customer $stripe_customer Stripe Customer Object.
 		 * @param string           $id              Source or Token ID.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @return \Stripe\Source|bool
+		 * @return \Give\Stripe\Source|bool
 		 */
 		public function get_customer_card( $stripe_customer, $id ) {
 
@@ -310,7 +310,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 						'source' => $id,
 					) );
 
-				} catch ( \Stripe\Error\Base $e ) {
+				} catch ( \Give\Stripe\Error\Base $e ) {
 
 					// Log Error.
 					$this->log_error( $e );
@@ -381,7 +381,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		 *
 		 * Logs in the Give db the error and also displays the error message to the donor.
 		 *
-		 * @param \Stripe\Error\Base|\Stripe\Error\Card $exception    Exception.
+		 * @param \Give\Stripe\Error\Base|\Give\Stripe\Error\Card $exception    Exception.
 		 *
 		 * @since 2.5.0
 		 *
@@ -449,7 +449,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		 *
 		 * @param int            $payment_id         Payment ID.
 		 * @param string         $stripe_customer_id Customer ID.
-		 * @param \Stripe\Charge $charge             Stripe Charge Object.
+		 * @param \Give\Stripe\Charge $charge             Stripe Charge Object.
 		 */
 		public function verify_payment( $payment_id, $stripe_customer_id, $charge ) {
 
@@ -461,7 +461,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 				 *
 				 * @param int            $payment_id         Payment ID.
 				 * @param string         $stripe_customer_id Customer ID.
-				 * @param \Stripe\Charge $charge             Stripe Charge Object.
+				 * @param \Give\Stripe\Charge $charge             Stripe Charge Object.
 				 *
 				 * @since 2.5.0
 				 */
@@ -543,7 +543,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		 * @since  2.5.0
 		 * @access public
 		 *
-		 * @return \Stripe\Charge
+		 * @return \Give\Stripe\Charge
 		 */
 		public function create_charge( $donation_id, $charge_args ) {
 
@@ -560,7 +560,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 					$charge_args['application_fee_amount'] = give_stripe_get_application_fee_amount( $charge_args['amount'] );
 				}
 
-				$charge = \Stripe\Charge::create(
+				$charge = \Give\Stripe\Charge::create(
 					$charge_args,
 					give_stripe_get_connected_account_options()
 				);
@@ -574,7 +574,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 
 				return $charge;
 
-			} catch ( \Stripe\Error\Base $e ) {
+			} catch ( \Give\Stripe\Error\Base $e ) {
 				Give_Stripe_Logger::log_error( $e, $this->id );
 			} catch ( Exception $e ) {
 
@@ -600,7 +600,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		 * @since  1.6
 		 * @access public
 	 	 *
-		 * @return bool|\Stripe\Source
+		 * @return bool|\Give\Stripe\Source
 		 */
 		public function create_3d_secure_source( $donation_id, $source_id ) {
 			$form_id         = give_get_payment_form_id( $donation_id );
@@ -643,7 +643,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		/**
 		 * Is 3D secure payment required?
 		 *
-		 * @param \Stripe\Source $source_object Stripe Source Object.
+		 * @param \Give\Stripe\Source $source_object Stripe Source Object.
 		 *
 		 * @since  1.6
 		 * @access public
@@ -675,7 +675,7 @@ if ( ! class_exists( 'Give_Stripe_Gateway' ) ) {
 		 * @param array  $donation_data      List of donation data.
 		 * @param string $stripe_customer_id Customer ID.
 		 *
-		 * @return bool|\Stripe\Charge
+		 * @return bool|\Give\Stripe\Charge
 		 */
 		public function process_charge( $donation_data, $stripe_customer_id ) {
 

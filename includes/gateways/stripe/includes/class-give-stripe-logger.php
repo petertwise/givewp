@@ -34,7 +34,7 @@ class Give_Stripe_Logger {
 	 *
 	 * Logs in the Give db the error and also displays the error message to the donor.
 	 *
-	 * @param \Stripe\Error\Base|\Stripe\Error\Card $exception    Stripe Exception Object.
+	 * @param \Give\Stripe\Error\Base|\Give\Stripe\Error\Card $exception    Stripe Exception Object.
 	 * @param string                                $payment_mode Payment Mode.
 	 *
 	 * @since  2.5.0

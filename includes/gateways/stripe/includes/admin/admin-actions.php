@@ -167,7 +167,7 @@ function give_stripe_process_refund( $donation_id, $new_status, $old_status ) {
 
 	try {
 
-		$refund = \Stripe\Refund::create( array(
+		$refund = \Give\Stripe\Refund::create( array(
 			'charge' => $charge_id,
 		) );
 
@@ -181,7 +181,7 @@ function give_stripe_process_refund( $donation_id, $new_status, $old_status ) {
 				)
 			);
 		}
-	} catch ( \Stripe\Error\Base $e ) {
+	} catch ( \Give\Stripe\Error\Base $e ) {
 		// Refund issue occurred.
 		$log_message = __( 'The Stripe payment gateway returned an error while refunding a donation.', 'give' ) . '<br><br>';
 		$log_message .= sprintf( esc_html__( 'Message: %s', 'give' ), $e->getMessage() ) . '<br><br>';

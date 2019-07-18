@@ -29,7 +29,7 @@ if ( ! class_exists( 'Give_Stripe_Invoice' ) ) {
 		 *
 		 * @param string $id Invoice ID.
 		 *
-		 * @return \Stripe\Invoice
+		 * @return \Give\Stripe\Invoice
 		 */
 		public function retrieve( $id ) {
 			try {
@@ -38,7 +38,7 @@ if ( ! class_exists( 'Give_Stripe_Invoice' ) ) {
 				give_stripe_set_app_info();
 
 				// Retrieve Invoice by ID.
-				$invoice = \Stripe\Invoice::retrieve( $id );
+				$invoice = \Give\Stripe\Invoice::retrieve( $id );
 			} catch( Exception $e ) {
 
 				// Something went wrong outside of Stripe.
