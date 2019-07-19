@@ -144,12 +144,6 @@ const config = {
 
 		new CopyWebpackPlugin( [ { from: 'assets/src/tcpdf-fonts/', to: '../../vendor/tecnickcom/tcpdf/fonts/' } ] ),
 
-		// Clean Stripe SDK generated via composer.
-		new CleanWebpackPlugin( [ 'vendor/stripe/*' ] ),
-
-		// Move custom namespaced Stripe SDK to vendor folder.
-		new CopyWebpackPlugin( [ { from: 'vendor_prefixed/stripe/', to: '../../vendor/stripe/' } ] ),
-
 		// Setup browser sync. Note: don't use ".local" TLD as it will be very slow. We recommending using ".test".
 		new BrowserSyncPlugin( {
 			files: [
