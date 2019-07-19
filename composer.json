@@ -24,18 +24,22 @@
     "issues": "https://github.com/impress-org/give/issues"
 	},
 	"autoload": {
-		"psr-4": {"Give\\Stripe\\": "vendor/stripe/stripe-php/lib"}
+		"psr-4": {
+			"Give\\Stripe\\": "vendor/stripe/stripe-php/lib"
+		}
 	},
   "scripts": {
     "post-install-cmd": [
 			"\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs || true",
 			"vendor/bin/php-scoper add-prefix --output-dir=vendor_prefixed/stripe/stripe-php",
-			"composer dump-autoload"
+			"composer dump-autoload",
+			"cp -R vendor_prefixed/stripe/ vendor/stripe/"
     ],
     "post-update-cmd": [
 			"\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs || true",
 			"vendor/bin/php-scoper add-prefix --output-dir=vendor_prefixed/stripe/stripe-php",
-			"composer dump-autoload"
+			"composer dump-autoload",
+			"cp -R vendor_prefixed/stripe/ vendor/stripe/"
     ]
   }
 }
