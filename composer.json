@@ -32,14 +32,16 @@
     "post-install-cmd": [
 			"\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs || true",
 			"vendor/bin/php-scoper add-prefix --output-dir=vendor_prefixed/stripe/stripe-php",
-			"composer dump-autoload",
-			"cp -R vendor_prefixed/stripe/ vendor/stripe/"
+			"cp -R vendor_prefixed/stripe/ vendor/stripe/",
+			"composer dump-autoload --optimize --classmap-authoritative",
+			"rm -rf vendor_prefixed"
     ],
     "post-update-cmd": [
 			"\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs || true",
 			"vendor/bin/php-scoper add-prefix --output-dir=vendor_prefixed/stripe/stripe-php",
-			"composer dump-autoload",
-			"cp -R vendor_prefixed/stripe/ vendor/stripe/"
-    ]
+			"cp -R vendor_prefixed/stripe/ vendor/stripe/",
+			"composer dump-autoload --optimize --classmap-authoritative",
+			"rm -rf vendor_prefixed"
+		]
   }
 }
